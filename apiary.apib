@@ -1,0 +1,87 @@
+FORMAT: 1A
+HOST: http://api.zhihuazhang.net/magokoro
+
+# mogokoro
+
+まごころAPI.
+
+# Group Auth
+
+## Auth [/auth/login]
+
+### 登陆 [POST]
+
++ Request (application/json)
+
+        {
+            "userid": "zhz821",
+            "password": "123"
+        }
+        
++ Response 200 (application/json)
+    + Body
+    
+            {
+                "user": {
+                    "_id" : 57fc366c9a04201a98836126,
+                    "userid": "zhz821",
+                    "created_at": "2016-12-01T08:40:51.620Z",
+                    "gender": 0,
+                    "birthday": "1982/01/16"
+                },
+                "token": "abcdefghijklmn"
+            }
+            
+# Group Users
+
+## User [/api/users/{user_id}]
+
++ Parameters
+    + user_id: `zhz821` (string) - The id of the user.
+    
++ Model (application/json)
+    ```js
+    {
+        "_id" : 57fc366c9a04201a98836126
+        "userid": "zhz821",
+        "created_at": "2016-12-01T08:40:51.620Z",
+        "gender": 0,
+        "birthday": "1982/01/16"
+    }
+    ```
+### 用户信息取得 [GET]
+
++ Response 200
+    [User][]
+
+### 删除用户 [DELETE]
+
++ Response 204
+
+
+## Users Collection [/users]
+
+### 注册新用户 [POST]
+
++ Request (application/json)
+
+        {
+            "userid": "zhz821",
+            "password": "123",
+            "gender": 0,
+            "birthday": "1982/01/16"
+        }
+
++ Response 201 (application/json)
+    + Body
+    
+            {
+                "user": {
+                    "_id" : 57fc366c9a04201a98836126,
+                    "userid": "zhz821",
+                    "createdAt": "2016-12-01T08:40:51.620Z",
+                    "gender": 0,
+                    "birthday": "1982/01/16"
+                },
+                "token": "abcdefghijklmn"
+            }
