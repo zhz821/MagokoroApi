@@ -14,7 +14,7 @@ HOST: http://api.zhihuazhang.net/magokoro
 + Request (application/json)
 
         {
-            "userid": "zhz821",
+            "uid": "zhz821",
             "password": "123"
         }
         
@@ -22,28 +22,89 @@ HOST: http://api.zhihuazhang.net/magokoro
     + Body
     
             {
-                "user": {
-                    "_id" : 57fc366c9a04201a98836126,
-                    "userid": "zhz821",
-                    "createdAt": "2016-12-01T08:40:51.620Z",
-                    "gender": 0,
-                    "birthday": "1982/01/16"
-                },
+                "user": [User][],
                 "token": "abcdefghijklmn"
             }
-            
+
 # Group Users
 
-## User [/api/users/{user_id}]
+## Me [/api/user]
+
++ Model (application/json)
+
+    ```js
+    {
+        "_id" : "57fc366c9a04201a98836126"
+        "uid": "zhz821",
+        "name": "張志華",
+        "created_at": "2016-12-01T08:40:51.620Z",
+        "gender": 0,
+        "birthday": "1982/01/16",
+        "invites": [
+                    {"uid": "abc", "name": "ABC"},
+                    {{"uid": "def", "name": "DEF"}
+                    ]
+    }
+    ```
+
+### 取得自己信息 [GET]
+
++ Request 
+
+    + Headers
+    
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
++ Response 200
+
+    [User][]
+
+### 更新自己信息 [PATCH]
+
++ Request 
+
+    + Headers
+    
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+            
+    + Body
+    
+            {
+                "name": "Nakata"
+            }
+            
++ Response 200
+
+    [Me][]
+    
+## Invite [/api/user/inviting/{uid}]
 
 + Parameters
-    + user_id: `zhz821` (string) - The id of the user.
+    + uid: `rtx` (string) - The id of the user to invite.
+
+### 发送好友邀请 [PUT]
+
++ Request 
+
+    + Headers
+    
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
++ Response 200
+    [Me][]
+
+## User [/api/users/{uid}]
+
++ Parameters
+    + uid: `zhz821` (string) - The id of the user.
     
 + Model (application/json)
+
     ```js
     {
         "_id" : 57fc366c9a04201a98836126
-        "userid": "zhz821",
+        "uid": "zhz821",
+        "name": "張志華",
         "created_at": "2016-12-01T08:40:51.620Z",
         "gender": 0,
         "birthday": "1982/01/16"
@@ -51,26 +112,29 @@ HOST: http://api.zhihuazhang.net/magokoro
     ```
 ### 用户信息取得 [GET]
 
++ Request 
+
+    + Headers
+    
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
 + Response 200
     [User][]
-
-### 删除用户 [DELETE]
-
-+ Response 204
-
 
 ## Users Collection [/users]
 
 ### 注册新用户 [POST]
 
 + Request (application/json)
-
-        {
-            "userid": "zhz821",
-            "password": "123",
-            "gender": 0,
-            "birthday": "1982/01/16"
-        }
+    + Body
+    
+            {
+                "uid": "zhz821",
+                "password": "123",
+                "name": "張志華",
+                "gender": 0,
+                "birthday": "1982/01/16"
+            }
 
 + Response 201 (application/json)
     + Body
@@ -78,10 +142,18 @@ HOST: http://api.zhihuazhang.net/magokoro
             {
                 "user": {
                     "_id" : 57fc366c9a04201a98836126,
-                    "userid": "zhz821",
+                    "uid": "zhz821",
+                    "name": "張志華",
                     "createdAt": "2016-12-01T08:40:51.620Z",
                     "gender": 0,
                     "birthday": "1982/01/16"
                 },
                 "token": "abcdefghijklmn"
             }
+            
++ Response 409 (application/json)
+    + Body
+    
+                {
+                    "message": "IDがすでに登録済みです。"
+                }
