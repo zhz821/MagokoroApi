@@ -7,17 +7,17 @@ HOST: http://api.zhihuazhang.net/magokoro
 
 # Group Auth
 
-## Auth [/auth/login]
+## Auth [/login]
 
 ### 登陆 [POST]
 
 + Request (application/json)
 
-        {
-            "uid": "zhz821",
-            "password": "123"
-        }
-        
+            {
+                "uid": "zhz821",
+                "password": "123"
+            }
+
 + Response 200 (application/json)
     + Body
 
@@ -26,12 +26,12 @@ HOST: http://api.zhihuazhang.net/magokoro
                             "_id" : "57fc366c9a04201a98836126"
                             "uid": "zhz821",
                             "name": "張志華",
-                            "created_at": "2016-12-01T08:40:51.620Z",
+                            "createdAt": "2016-12-01T08:40:51.620Z",
                             "gender": 0,
                             "birthday": "1982/01/16",
                             "invites": [
                                         {"uid": "abc", "name": "ABC"},
-                                        {{"uid": "def", "name": "DEF"}
+                                        {"uid": "def", "name": "DEF"}
                                         ]
                         },
                 "accessToken": "abcdefghijklmn"
@@ -39,7 +39,7 @@ HOST: http://api.zhihuazhang.net/magokoro
 
 # Group Users
 
-## Me [/api/user]
+## Me [/user]
 
 + Model (application/json)
 
@@ -48,7 +48,7 @@ HOST: http://api.zhihuazhang.net/magokoro
         "_id" : "57fc366c9a04201a98836126"
         "uid": "zhz821",
         "name": "張志華",
-        "created_at": "2016-12-01T08:40:51.620Z",
+        "createdAt": "2016-12-01T08:40:51.620Z",
         "gender": 0,
         "birthday": "1982/01/16",
         "inviting": [
@@ -70,7 +70,7 @@ HOST: http://api.zhihuazhang.net/magokoro
 + Request 
 
     + Headers
-    
+
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
 
 + Response 200
@@ -82,11 +82,11 @@ HOST: http://api.zhihuazhang.net/magokoro
 + Request 
 
     + Headers
-    
+
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
-            
+
     + Body
-    
+
             {
                 "name": "Nakata"
             }
@@ -94,8 +94,8 @@ HOST: http://api.zhihuazhang.net/magokoro
 + Response 200
 
     [Me][]
-    
-## Invite [/api/user/inviting/{uid}]
+
+## Invite [/user/inviting/{uid}]
 
 + Parameters
     + uid: `rtx` (string) - 被邀请者的uid.
@@ -111,7 +111,23 @@ HOST: http://api.zhihuazhang.net/magokoro
 + Response 200
     [Me][]
 
-## User [/api/users/{uid}]
+## Friend [/user/friend/{uid}]
+
++ Parameters
+    + uid: `rtx` (string) - 要接受好友邀请的用户的uid.
+
+### 接受好友邀请 [PUT]
+
++ Request 
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
++ Response 200
+    [Me][]
+
+## User [/users/{uid}]
 
 + Parameters
     + uid: `zhz821` (string) - 用户的uid.
@@ -123,7 +139,7 @@ HOST: http://api.zhihuazhang.net/magokoro
         "_id" : "57fc366c9a04201a98836126",
         "uid": "zhz821",
         "name": "張志華",
-        "created_at": "2016-12-01T08:40:51.620Z",
+        "createdAt": "2016-12-01T08:40:51.620Z",
         "gender": 0,
         "birthday": "1982/01/16",
         "status": "inviting"
@@ -145,15 +161,15 @@ HOST: http://api.zhihuazhang.net/magokoro
 ### 注册新用户 [POST]
 
 + Request (application/json)
-    + Body
 
-            {
-                "uid": "zhz821",
-                "password": "123",
-                "name": "張志華",
-                "gender": 0,
-                "birthday": "1982/01/16"
-            }
+    + Attributes
+
+        + uid: zhz821 (required)
+        + password: 123(required)
+        + name: 張志華(required)
+        + gender: 0(required)
+        + birthday: 1982/1/16(required)
+        + group: 1234567890 - 登陆后添加其他用户时需要发送
 
 + Response 201 (application/json)
     + Body
@@ -165,7 +181,8 @@ HOST: http://api.zhihuazhang.net/magokoro
                     "name": "張志華",
                     "createdAt": "2016-12-01T08:40:51.620Z",
                     "gender": 0,
-                    "birthday": "1982/01/16"
+                    "birthday": "1982/01/16",
+                    "group": "1234567890"
                 },
                 "token": "abcdefghijklmn"
             }
@@ -173,6 +190,118 @@ HOST: http://api.zhihuazhang.net/magokoro
 + Response 409 (application/json)
     + Body
 
+            {
+                "message": "IDがすでに登録済みです。"
+            }
+
+#group 消息
+
+## Message [/messages/{mid}]
+
++ Parameters
+    + mid: `123456` (string) - 消息的id.
+
++ Model (application/json)
+
+    ```js
+    {
+        "_id" : "57fc366c9a04201a98836126",
+        "event": "誕生日",
+        "content": "おめでとうございます。",
+        "createdAt": "2016-12-01T08:40:51.620Z",
+        "from": {uid: "zhz821", name: "abc"},
+        "to": {uid: "rtx", name: "rtx"},
+        "photo": "UAwJnBIBw8R_T7jy6S9RSV_M.JPEG",
+        "video": {"thumbnail": "UAwJnBIBw8R_T7jy6S9RSV_M.PNG", "url": "kFZejqx8Zpzse9TBWJ0mYGou.MOV"},
+        "replies": [
+                        {
+                            "content": "ありがとうございます。", 
+                            "from": {uid: "zhz821", name: "abc"},
+                            "to": {uid: "rtx", name: "rtx"}
+                        }
+                    ]
+    }
+    ```
+
+### 取得消息 [GET]
+
++ Response 200
+
+    [Message][]
+
+## Messages [/messages]
+
+### 发送消息 [POST]
+
++ Request 
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
+    + Attributes
+
+        + event: 誕生日 (required)
+        + content: おめでとうございます。(required)
+        + name: 張志華(required)
+        + uid: rtx(required) - 收件人uid
+        + photo: 1111 - 图片数据
+        + video: 1010 - 视频数据
+
++ Response 200
+
+    [Message][]
+
+## Reply [/messages/{mid}/replies]
+
++ Parameters
+    + mid: `123456` (string) - 消息的id.
+
+### 回复消息 [PUT]
+
++ Request 
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
+    + Attributes
+
+        + content: ありがとうございます。(required)
+
++ Response 200
+
+    [Message][]
+
+#group Event
+
+## Events Collection [/events]
+
+### 事件一览 [GET]
+
++ Request 
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
                 {
-                    "message": "IDがすでに登録済みです。"
+                    "_id": "5726ac024ff978af01400b57",
+                    "group": "1234567890",
+                    "type": "inviting",
+                    "from": {
+                        "username" : "test04",
+                        "name" : "Test04"
+                    },
+                    "to": {
+                        "username" : "test05",
+                        "name" : "Test05"
+                    },
+                    "createdAt": "2016-12-01T08:40:51.620Z"
                 }
+            ]
