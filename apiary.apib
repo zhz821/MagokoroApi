@@ -51,9 +51,16 @@ HOST: http://api.zhihuazhang.net/magokoro
         "created_at": "2016-12-01T08:40:51.620Z",
         "gender": 0,
         "birthday": "1982/01/16",
-        "invites": [
+        "inviting": [
                     {"uid": "abc", "name": "ABC"},
-                    {{"uid": "def", "name": "DEF"}
+                    {"uid": "def", "name": "DEF"}
+                    ],
+        "invited": [
+                    {"uid": "ghi", "name": "GHI"},
+                    {"uid": "jkl", "name": "JKL"}
+                    ],
+        "friend": [
+                    {"uid": "aaa", "name": "AAA"}
                     ]
     }
     ```
@@ -88,7 +95,7 @@ HOST: http://api.zhihuazhang.net/magokoro
 
     [Me][]
     
-## Invite [/api/user/invite/{uid}]
+## Invite [/api/user/inviting/{uid}]
 
 + Parameters
     + uid: `rtx` (string) - 被邀请者的uid.
@@ -118,7 +125,8 @@ HOST: http://api.zhihuazhang.net/magokoro
         "name": "張志華",
         "created_at": "2016-12-01T08:40:51.620Z",
         "gender": 0,
-        "birthday": "1982/01/16"
+        "birthday": "1982/01/16",
+        "status": "inviting"
     }
     ```
 ### 用户信息取得 [GET]
