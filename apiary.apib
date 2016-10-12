@@ -5,7 +5,7 @@ HOST: http://api.zhihuazhang.net/magokoro
 
 まごころAPI.
 
-# Group Auth
+# Group 认证
 
 ## Auth [/login]
 
@@ -37,7 +37,86 @@ HOST: http://api.zhihuazhang.net/magokoro
                 "accessToken": "abcdefghijklmn"
             }
 
-# Group Users
+## Logout [/logout]
+
+### 注销 [POST]
+
++ Request 
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
+    + Attributes
+
+        + device: xxxx (required) - 注销设备的id，需要删除以停止接收通知
+
++ Response 200
+
+
+# Group 用户
+
+## Users [/users]
+
++ Model (application/json)
+
+    ```js
+    {
+        "_id" : "57fc366c9a04201a98836126"
+        "uid": "zhz821",
+        "name": "張志華",
+        "createdAt": "2016-12-01T08:40:51.620Z",
+        "gender": 0,
+        "birthday": "1982/01/16",
+        "inviting": [
+                    {"uid": "abc", "name": "ABC"},
+                    {"uid": "def", "name": "DEF"}
+                    ],
+        "invited": [
+                    {"uid": "ghi", "name": "GHI"},
+                    {"uid": "jkl", "name": "JKL"}
+                    ],
+        "friend": [
+                    {"uid": "aaa", "name": "AAA"}
+                    ]
+    }
+    ```
+    
+### 注册新用户 [POST]
+
++ Request (application/json)
+
+    + Attributes
+
+        + uid: zhz821 (required)
+        + password: 123(required)
+        + name: 張志華(required)
+        + gender: 0(required)
+        + birthday: 1982/1/16(required)
+        + group: 1234567890 - 登陆后添加其他用户时需要发送
+
++ Response 201 (application/json)
+    + Body
+
+            {
+                "user": {
+                    "_id" : "57fc366c9a04201a98836126",
+                    "uid": "zhz821",
+                    "name": "張志華",
+                    "createdAt": "2016-12-01T08:40:51.620Z",
+                    "gender": 0,
+                    "birthday": "1982/01/16",
+                    "group": "1234567890"
+                },
+                "token": "abcdefghijklmn"
+            }
+            
++ Response 409 (application/json)
+    + Body
+
+            {
+                "message": "IDがすでに登録済みです。"
+            }
 
 ## Me [/user]
 
@@ -156,45 +235,7 @@ HOST: http://api.zhihuazhang.net/magokoro
 + Response 200
     [User][]
 
-## Users Collection [/users]
-
-### 注册新用户 [POST]
-
-+ Request (application/json)
-
-    + Attributes
-
-        + uid: zhz821 (required)
-        + password: 123(required)
-        + name: 張志華(required)
-        + gender: 0(required)
-        + birthday: 1982/1/16(required)
-        + group: 1234567890 - 登陆后添加其他用户时需要发送
-
-+ Response 201 (application/json)
-    + Body
-
-            {
-                "user": {
-                    "_id" : "57fc366c9a04201a98836126",
-                    "uid": "zhz821",
-                    "name": "張志華",
-                    "createdAt": "2016-12-01T08:40:51.620Z",
-                    "gender": 0,
-                    "birthday": "1982/01/16",
-                    "group": "1234567890"
-                },
-                "token": "abcdefghijklmn"
-            }
-            
-+ Response 409 (application/json)
-    + Body
-
-            {
-                "message": "IDがすでに登録済みです。"
-            }
-
-#group 消息
+# Group 消息
 
 ## Message [/messages/{mid}]
 
@@ -273,7 +314,7 @@ HOST: http://api.zhihuazhang.net/magokoro
 
     [Message][]
 
-#group Event
+# Group 事件
 
 ## Events Collection [/events]
 
@@ -305,3 +346,20 @@ HOST: http://api.zhihuazhang.net/magokoro
                     "createdAt": "2016-12-01T08:40:51.620Z"
                 }
             ]
+# Group 设备
+
+## devices [/devices]
+
+### 上传设备 [POST]
+
++ Request 
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
+    + Attributes
+
+        + deviceId: xxxx (required) - 设备ID
+
++ Response 200
