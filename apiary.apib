@@ -29,9 +29,10 @@ HOST: http://api.zhihuazhang.net/magokoro
                             "createdAt": "2016-12-01T08:40:51.620Z",
                             "gender": 0,
                             "birthday": "1982/01/16",
-                            "invites": [
-                                        {"uid": "abc", "name": "ABC"},
-                                        {"uid": "def", "name": "DEF"}
+                            "avatar": "xxxx.png",
+                            "inviting": [
+                                        {"uid": "abc"},
+                                        {"uid": "def"}
                                         ]
                         },
                 "accessToken": "abcdefghijklmn"
@@ -68,20 +69,21 @@ HOST: http://api.zhihuazhang.net/magokoro
         "createdAt": "2016-12-01T08:40:51.620Z",
         "gender": 0,
         "birthday": "1982/01/16",
+        "avatar": "xxxx.png",
         "inviting": [
-                    {"uid": "abc", "name": "ABC"},
-                    {"uid": "def", "name": "DEF"}
+                    {"uid": "abc"},
+                    {"uid": "def"}
                     ],
         "invited": [
-                    {"uid": "ghi", "name": "GHI"},
-                    {"uid": "jkl", "name": "JKL"}
+                    {"uid": "ghi"},
+                    {"uid": "jkl"}
                     ],
         "friend": [
-                    {"uid": "aaa", "name": "AAA"}
+                    {"uid": "aaa"}
                     ]
     }
     ```
-    
+
 ### 注册新用户 [POST]
 
 + Request (application/json)
@@ -93,7 +95,6 @@ HOST: http://api.zhihuazhang.net/magokoro
         + name: 張志華(required)
         + gender: 0(required)
         + birthday: 1982/1/16(required)
-        + group: 1234567890 - 登陆后添加其他用户时需要发送
 
 + Response 201 (application/json)
     + Body
@@ -105,10 +106,9 @@ HOST: http://api.zhihuazhang.net/magokoro
                     "name": "張志華",
                     "createdAt": "2016-12-01T08:40:51.620Z",
                     "gender": 0,
-                    "birthday": "1982/01/16",
-                    "group": "1234567890"
+                    "birthday": "1982/01/16"
                 },
-                "token": "abcdefghijklmn"
+                "accessToken": "abcdefghijklmn"
             }
             
 + Response 409 (application/json)
@@ -130,16 +130,17 @@ HOST: http://api.zhihuazhang.net/magokoro
         "createdAt": "2016-12-01T08:40:51.620Z",
         "gender": 0,
         "birthday": "1982/01/16",
+        "avatar": "xxxx.png",
         "inviting": [
-                    {"uid": "abc", "name": "ABC"},
-                    {"uid": "def", "name": "DEF"}
+                    {"uid": "abc"},
+                    {"uid": "def"}
                     ],
         "invited": [
-                    {"uid": "ghi", "name": "GHI"},
-                    {"uid": "jkl", "name": "JKL"}
+                    {"uid": "ghi"},
+                    {"uid": "jkl"}
                     ],
         "friend": [
-                    {"uid": "aaa", "name": "AAA"}
+                    {"uid": "aaa"}
                     ]
     }
     ```
@@ -218,6 +219,7 @@ HOST: http://api.zhihuazhang.net/magokoro
         "_id" : "57fc366c9a04201a98836126",
         "uid": "zhz821",
         "name": "張志華",
+        "avatar": "xxxx.png",
         "createdAt": "2016-12-01T08:40:51.620Z",
         "gender": 0,
         "birthday": "1982/01/16",
@@ -250,15 +252,15 @@ HOST: http://api.zhihuazhang.net/magokoro
         "event": "誕生日",
         "content": "おめでとうございます。",
         "createdAt": "2016-12-01T08:40:51.620Z",
-        "from": {uid: "zhz821", name: "abc"},
-        "to": {uid: "rtx", name: "rtx"},
+        "from": {uid: "zhz821"},
+        "to": {uid: "rtx"},
         "photo": "UAwJnBIBw8R_T7jy6S9RSV_M.JPEG",
         "video": {"thumbnail": "UAwJnBIBw8R_T7jy6S9RSV_M.PNG", "url": "kFZejqx8Zpzse9TBWJ0mYGou.MOV"},
         "replies": [
                         {
                             "content": "ありがとうございます。", 
-                            "from": {uid: "zhz821", name: "abc"},
-                            "to": {uid: "rtx", name: "rtx"}
+                            "from": {uid: "zhz821"},
+                            "to": {uid: "rtx"}
                         }
                     ]
     }
@@ -272,7 +274,7 @@ HOST: http://api.zhihuazhang.net/magokoro
 
 ## Messages [/messages]
 
-### 发送消息 [POST]
+### 发送消息 [PUT]
 
 + Request 
 
@@ -289,7 +291,7 @@ HOST: http://api.zhihuazhang.net/magokoro
         + photo: 1111 - 图片数据
         + video: 1010 - 视频数据
 
-+ Response 200
++ Response 201
 
     [Message][]
 
@@ -298,7 +300,7 @@ HOST: http://api.zhihuazhang.net/magokoro
 + Parameters
     + mid: `123456` (string) - 消息的id.
 
-### 回复消息 [PUT]
+### 回复消息 [PATCH]
 
 + Request 
 
@@ -333,19 +335,38 @@ HOST: http://api.zhihuazhang.net/magokoro
             [
                 {
                     "_id": "5726ac024ff978af01400b57",
-                    "group": "1234567890",
                     "type": "inviting",
                     "from": {
-                        "username" : "test04",
-                        "name" : "Test04"
+                        "uid" : "test04",
+                        "name" : "Test04",
+                        "avatar": "xxxx.png"
                     },
                     "to": {
-                        "username" : "test05",
-                        "name" : "Test05"
+                        "uid" : "test05",
+                        "name" : "Test05",
+                        "avatar": "xxxx.png"
                     },
+                    "createdAt": "2016-12-01T08:40:51.620Z"
+                },
+                {
+                    "_id": "5726ac024ff978af01400b57",
+                    "type": "message",
+                    "from": {
+                        "uid" : "test04",
+                        "name" : "Test04",
+                        "avatar": "xxxx.png"
+                    },
+                    "to": {
+                        "uid" : "test05",
+                        "name" : "Test05",
+                        "avatar": "xxxx.png"
+                    },
+                    "event": "圣诞节",
+                    "mid": "m12345678",
                     "createdAt": "2016-12-01T08:40:51.620Z"
                 }
             ]
+
 # Group 设备
 
 ## devices [/devices]
