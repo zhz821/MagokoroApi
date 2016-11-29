@@ -22,35 +22,60 @@ HOST: http://api.zhihuazhang.net/magokoro
     + Body
 
             {
+                "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9",
                 "user": {
-                            "_id" : "57fc366c9a04201a98836126"
-                            "uid": "zhz821",
-                            "name": "張志華",
-                            "createdAt": "2016-12-01T08:40:51.620Z",
-                            "gender": 0,
-                            "birthday": "1982/01/16",
-                            "avatar": "xxxx.png",
-                            "inviting": [
-                                        {"uid": "abc"},
-                                        {"uid": "def"}
-                                        ]
+                    "_id": "581ddc4989fc2ac44f365f45",
+                    "name": "ouyou1",
+                    "gender": 1,
+                    "birthday": "2010年01月01日",
+                    "uid": "wangyao",
+                    "createdAt": "2016-11-05T13:19:05.683Z",
+                    "inviting": [
+                        {
+                            "uid": "liuweilin"
+                        }
+                    ],
+                    "friends": [
+                        {
+                            "_id": "581d393a14aa5b031dad9540",
+                            "name": "ふみ",
+                            "uid": "zhz110501",
+                            "avatar": "dhod1keUd7te-uvN9YSbY00E.png"
                         },
-                "accessToken": "abcdefghijklmn"
+                        {
+                            "_id": "581d3d7d14aa5b031dad9541",
+                            "name": "こうよう",
+                            "uid": "zhz110502"
+                        }
+                    ],
+                    "invited": [
+                        {
+                            "uid": "112101"
+                        },
+                        {
+                            "uid": "112801"
+                        }
+                    ],
+                    "avatar": "JjaDbRAMoZm0s90olA4VREL6.png"
+                }
+            }
++ Response 401 (application/json)
+    + Body
+
+            {
+                "status": 401,
+                "message": "IDとパスワードが一致しません。"
             }
 
 ## Logout [/logout]
 
-### 注销 [POST]
+### 注销 [GET]
 
 + Request 
 
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
-
-    + Attributes
-
-        + device: xxxx (required) - 注销设备的id，需要删除以停止接收通知
 
 + Response 200
 
@@ -96,27 +121,79 @@ HOST: http://api.zhihuazhang.net/magokoro
         + gender: 0(required)
         + birthday: 1982/1/16(required)
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
     + Body
 
-            {
-                "user": {
-                    "_id" : "57fc366c9a04201a98836126",
-                    "uid": "zhz821",
-                    "name": "張志華",
-                    "createdAt": "2016-12-01T08:40:51.620Z",
-                    "gender": 0,
-                    "birthday": "1982/01/16"
-                },
-                "accessToken": "abcdefghijklmn"
+        {
+            "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9",
+            "user": {
+                "_id": "581ddc4989fc2ac44f365f45",
+                "name": "ouyou1",
+                "gender": 1,
+                "birthday": "2010年01月01日",
+                "uid": "wangyao",
+                "createdAt": "2016-11-05T13:19:05.683Z"
             }
+        }
+
             
 + Response 409 (application/json)
     + Body
 
             {
+                "status": 409,
                 "message": "IDがすでに登録済みです。"
             }
+
+### 用户信息取得 [GET]
+
++ Parameters
+    + uid: `zhz821` (string) - 用户的uid.
+
+        For example: `users/zhz821`
+
++ Request 
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
++ Response 200 (application/json)
+    + Body
+            {
+                "uid": "zhz821",
+                "name": "張志華",
+                "avatar": "xxxx.png",
+                "status": "inviting"
+            }
+
+### 取得多个用户信息 [GET]
+
++ Parameters
+
+    + uids (required, string) ... 用户的uid. 可以指定多个
+
+        For example: `users?uids[]=wangyao&uids[]=zhz821`
+
++ Request 
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
++ response 200 (application/json)
+    + Body
+
+        [{
+            "_id": "581ddc4989fc2ac44f365f45",
+            "name": "ouyou1",
+            "uid": "wangyao",
+            "avatar": "JjaDbRAMoZm0s90olA4VREL6.png"
+        }, {
+            "_id": "583c1b593e3fdbaffdf89c2a",
+            "name": "張志華",
+            "uid": "zhz821"
+        }]
 
 ## Me [/user]
 
@@ -124,24 +201,39 @@ HOST: http://api.zhihuazhang.net/magokoro
 
     ```js
     {
-        "_id" : "57fc366c9a04201a98836126"
-        "uid": "zhz821",
-        "name": "張志華",
-        "createdAt": "2016-12-01T08:40:51.620Z",
-        "gender": 0,
-        "birthday": "1982/01/16",
-        "avatar": "xxxx.png",
+        "_id": "581ddc4989fc2ac44f365f45",
+        "name": "ouyou1",
+        "gender": 1,
+        "birthday": "2010年01月01日",
+        "uid": "wangyao",
+        "createdAt": "2016-11-05T13:19:05.683Z",
         "inviting": [
-                    {"uid": "abc"},
-                    {"uid": "def"}
-                    ],
+            {
+                "uid": "liuweilin"
+            }
+        ],
+        "friends": [
+            {
+                "_id": "581d393a14aa5b031dad9540",
+                "name": "ふみ",
+                "uid": "zhz110501",
+                "avatar": "dhod1keUd7te-uvN9YSbY00E.png"
+            },
+            {
+                "_id": "581d3d7d14aa5b031dad9541",
+                "name": "こうよう",
+                "uid": "zhz110502"
+            }
+        ],
         "invited": [
-                    {"uid": "ghi"},
-                    {"uid": "jkl"}
-                    ],
-        "friend": [
-                    {"uid": "aaa"}
-                    ]
+            {
+                "uid": "112101"
+            },
+            {
+                "uid": "112801"
+            }
+        ],
+        "avatar": "JjaDbRAMoZm0s90olA4VREL6.png"
     }
     ```
 
@@ -175,6 +267,40 @@ HOST: http://api.zhihuazhang.net/magokoro
 
     [Me][]
 
+## 头像 [/user/avatar]
+
+### 更新头像 [PATCH]
+
++ Request (multipart/form-data; boundary=alamofire.boundary.d1d87f727c4b2819)
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
+    + Body
+
+            --alamofire.boundary.d1d87f727c4b2819
+            Content-Disposition: form-data; name="img"; filename="avatar.png"
+            Content-Type: image/png
+
+
+            /9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
+            HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
+            MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIA
+            AhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEB
+            AAAAAAAAAAAAAAAA
+            --alamofire.boundary.d1d87f727c4b2819--
+
+### 删除头像 [DELETE]
+
++ Request 
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
++ Response 200
+
 ## Invite [/user/inviting/{uid}]
 
 + Parameters
@@ -206,36 +332,6 @@ HOST: http://api.zhihuazhang.net/magokoro
 
 + Response 200
     [Me][]
-
-## User [/users/{uid}]
-
-+ Parameters
-    + uid: `zhz821` (string) - 用户的uid.
-    
-+ Model (application/json)
-
-    ```js
-    {
-        "_id" : "57fc366c9a04201a98836126",
-        "uid": "zhz821",
-        "name": "張志華",
-        "avatar": "xxxx.png",
-        "createdAt": "2016-12-01T08:40:51.620Z",
-        "gender": 0,
-        "birthday": "1982/01/16",
-        "status": "inviting"
-    }
-    ```
-### 用户信息取得 [GET]
-
-+ Request 
-
-    + Headers
-
-            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
-
-+ Response 200
-    [User][]
 
 # Group 消息
 
@@ -272,49 +368,309 @@ HOST: http://api.zhihuazhang.net/magokoro
 
     [Message][]
 
-## Messages [/messages]
+## Messages [/messages/{uid}]
 
-### 发送消息 [PUT]
++ Parameters
+    + uid: `zhz821` (string) - 消息接收方的uid.
 
-+ Request 
+### 发送消息 [POST]
+
++ Request (application/json)
 
     + Headers
-
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
 
-    + Attributes
+    + Body        
+        {
+            "content": "Q",
+            "subject": "letter"
+        }
 
-        + event: 誕生日 (required)
-        + content: おめでとうございます。(required)
-        + name: 張志華(required)
-        + uid: rtx(required) - 收件人uid
-        + photo: 1111 - 图片数据
-        + video: 1010 - 视频数据
++ Response 200 (application/json)
 
-+ Response 201
+    {
+        "content": "Q",
+        "subject": "letter",
+        "createdAt": "2016-11-29T03:50:12.982Z",
+        "from": {
+            "name": "112801",
+            "uid": "112801",
+            "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+        },
+        "to": {
+            "name": "Nakata",
+            "uid": "nakata"
+        },
+        "_id": "583cfaf455ac51b26f534ba8",
+        "createdDay": "2016年11月29日"
+    }
 
-    [Message][]
-
-## Reply [/messages/{mid}/replies]
+## Reply [/messages/{mid}/reply]
 
 + Parameters
     + mid: `123456` (string) - 消息的id.
 
-### 回复消息 [PATCH]
+### 回复文本消息 [PUT]
 
-+ Request 
++ Request (application/json)
 
     + Headers
 
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
 
-    + Attributes
+    + Body
+        {
+            "content": "q"
+        }
 
-        + content: ありがとうございます。(required)
++ Response 200 (application/json)
 
-+ Response 200
+    {
+        "_id": "583cfac255ac51b26f534ba4",
+        "content": "Qwert ",
+        "subject": "letter",
+        "createdAt": "2016-11-29T03:49:22.772Z",
+        "from": {
+            "name": "112801",
+            "uid": "112801",
+            "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+        },
+        "to": {
+            "name": "Nakata",
+            "uid": "nakata"
+        },
+        "replies": [{
+            "sender": {
+                "name": "112801",
+                "uid": "112801",
+                "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+            },
+            "content": "q",
+            "type": "text",
+            "createdAt": "2016-11-29T03:49:26.254Z"
+        }],
+        "createdDay": "2016年11月29日"
+    }
 
-    [Message][]
+## Reply Image [/messages/{mid}/image]
+
++ Parameters
+    + mid: `123456` (string) - 消息的id.
+
+### 回复图片消息 [PUT]
+
++ Request (multipart/form-data; boundary=alamofire.boundary.d1d87f727c4b2819)
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
+    + Body
+
+            --alamofire.boundary.d1d87f727c4b2819
+            Content-Disposition: form-data; name="img"; filename="image.png"
+            Content-Type: image/png
+
+
+            /9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
+            HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
+            MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIA
+            AhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEB
+            AAAAAAAAAAAAAAAA
+            --alamofire.boundary.d1d87f727c4b2819--
+
++ Response 200 (application/json)
+
+    + Body
+        {
+            "_id": "583cfac255ac51b26f534ba4",
+            "content": "Qwert ",
+            "subject": "letter",
+            "createdAt": "2016-11-29T03:49:22.772Z",
+            "from": {
+                "name": "112801",
+                "uid": "112801",
+                "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+            },
+            "to": {
+                "name": "Nakata",
+                "uid": "nakata"
+            },
+            "replies": [{
+                "sender": {
+                    "name": "112801",
+                    "uid": "112801",
+                    "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                },
+                "content": "q",
+                "type": "text",
+                "createdAt": "2016-11-29T03:49:26.254Z"
+            }, {
+                "sender": {
+                    "name": "112801",
+                    "uid": "112801",
+                    "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                },
+                "type": "image",
+                "image": "9irRAjXFqz1A4F7JlVKw9GrM.png",
+                "createdAt": "2016-11-29T03:49:37.968Z"
+            }],
+            "createdDay": "2016年11月29日"
+        }
+
+## Reply Video [/messages/{mid}/video]
+
++ Parameters
+    + mid: `123456` (string) - 消息的id.
+
+### 回复视频消息 [PUT]
+
++ Request (multipart/form-data; boundary=alamofire.boundary.d1d87f727c4b2819)
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
+    + Body
+
+            --alamofire.boundary.d1d87f727c4b2819
+            Content-Disposition: form-data; name="video"; filename="xxxxx.mp4"
+            Content-Type: video/mp4
+
+
+            /9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
+            HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
+            MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIA
+            AhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEB
+            AAAAAAAAAAAAAAAA
+            --alamofire.boundary.d1d87f727c4b2819--
+
++ Response 200 (application/json)
+
+    + Body
+        {
+            "_id": "583cfac255ac51b26f534ba4",
+            "content": "Qwert ",
+            "subject": "letter",
+            "createdAt": "2016-11-29T03:49:22.772Z",
+            "from": {
+                "name": "112801",
+                "uid": "112801",
+                "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+            },
+            "to": {
+                "name": "Nakata",
+                "uid": "nakata"
+            },
+            "replies": [{
+                "sender": {
+                    "name": "112801",
+                    "uid": "112801",
+                    "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                },
+                "content": "q",
+                "type": "text",
+                "createdAt": "2016-11-29T03:49:26.254Z"
+            }, {
+                "sender": {
+                    "name": "112801",
+                    "uid": "112801",
+                    "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                },
+                "type": "image",
+                "image": "9irRAjXFqz1A4F7JlVKw9GrM.png",
+                "createdAt": "2016-11-29T03:49:37.968Z"
+            }, {
+                "sender": {
+                    "name": "112801",
+                    "uid": "112801",
+                    "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                },
+                "type": "video",
+                "image": "09429490-b5e7-11e6-9f16-957be1685457.png",
+                "video": "CF_elLYz8maZsMmkV0OHWc4N.mp4",
+                "createdAt": "2016-11-29T03:50:58.501Z"
+            }],
+            "createdDay": "2016年11月29日"
+        }
+
+## Reply Pressent [/messages/{mid}/present/{pid}]
+
++ Parameters
+    + mid: `123456` (string) - 消息的id.
+    + pid: `qwert` (string) - 礼物的id.
+
+### 回复物品链接消息 [PUT]
+
++ Request (application/json)
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
++ Response 200 (application/json)
+
+    + Body 
+        {
+            "_id": "583cfac255ac51b26f534ba4",
+            "content": "Qwert ",
+            "subject": "letter",
+            "createdAt": "2016-11-29T03:49:22.772Z",
+            "from": {
+                "name": "112801",
+                "uid": "112801",
+                "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+            },
+            "to": {
+                "name": "Nakata",
+                "uid": "nakata"
+            },
+            "replies": [{
+                "sender": {
+                    "name": "112801",
+                    "uid": "112801",
+                    "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                },
+                "content": "q",
+                "type": "text",
+                "createdAt": "2016-11-29T03:49:26.254Z"
+            }, {
+                "sender": {
+                    "name": "112801",
+                    "uid": "112801",
+                    "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                },
+                "type": "image",
+                "image": "9irRAjXFqz1A4F7JlVKw9GrM.png",
+                "createdAt": "2016-11-29T03:49:37.968Z"
+            }, {
+                "sender": {
+                    "name": "112801",
+                    "uid": "112801",
+                    "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                },
+                "type": "video",
+                "image": "09429490-b5e7-11e6-9f16-957be1685457.png",
+                "video": "CF_elLYz8maZsMmkV0OHWc4N.mp4",
+                "createdAt": "2016-11-29T03:50:58.501Z"
+            }, {
+                "sender": {
+                    "name": "112801",
+                    "uid": "112801",
+                    "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                },
+                "present": {
+                    "title": "mac",
+                    "link": "apple.com",
+                    "price": "12345",
+                    "image": "xx.jpg",
+                    "gid": "12001814c0856dc623a11b9d2a1cb03c"
+                },
+                "type": "present",
+                "createdAt": "2016-11-29T05:38:55.899Z"
+            }],
+            "createdDay": "2016年11月29日"
+        }
 
 # Group 事件
 
@@ -332,40 +688,190 @@ HOST: http://api.zhihuazhang.net/magokoro
 
     + Body
 
-            [
-                {
-                    "_id": "5726ac024ff978af01400b57",
-                    "type": "inviting",
-                    "from": {
-                        "uid" : "test04",
-                        "name" : "Test04",
-                        "avatar": "xxxx.png"
-                    },
-                    "to": {
-                        "uid" : "test05",
-                        "name" : "Test05",
-                        "avatar": "xxxx.png"
-                    },
-                    "createdAt": "2016-12-01T08:40:51.620Z"
-                },
-                {
-                    "_id": "5726ac024ff978af01400b57",
-                    "type": "message",
-                    "from": {
-                        "uid" : "test04",
-                        "name" : "Test04",
-                        "avatar": "xxxx.png"
-                    },
-                    "to": {
-                        "uid" : "test05",
-                        "name" : "Test05",
-                        "avatar": "xxxx.png"
-                    },
-                    "event": "圣诞节",
-                    "mid": "m12345678",
-                    "createdAt": "2016-12-01T08:40:51.620Z"
-                }
-            ]
+            [{
+              "_id": "583cfb2255ac51b26f534bab",
+              "type": "video",
+              "message": {
+                "_id": "583cfac255ac51b26f534ba4"
+              },
+              "from": {
+                "uid": "112801",
+                "name": "112801",
+                "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+              },
+              "to": {
+                "uid": "nakata",
+                "name": "Nakata",
+                "avatar": null
+              },
+              "subject": "letter",
+              "createdAt": "2016-11-29T03:50:58.509Z",
+              "read": 0
+            }, {
+              "_id": "583cfad155ac51b26f534ba7",
+              "type": "image",
+              "message": {
+                "_id": "583cfac255ac51b26f534ba4"
+              },
+              "from": {
+                "uid": "112801",
+                "name": "112801",
+                "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+              },
+              "to": {
+                "uid": "nakata",
+                "name": "Nakata",
+                "avatar": null
+              },
+              "subject": "letter",
+              "createdAt": "2016-11-29T03:49:37.983Z",
+              "read": 1
+            }, {
+              "_id": "583c28862c4fdcb6d69a6ce1",
+              "type": "present",
+              "message": {
+                "_id": "583c2521aec5c3b68697c684"
+              },
+              "from": {
+                "uid": "112801",
+                "name": "112801",
+                "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+              },
+              "to": {
+                "uid": "nakata",
+                "name": "Nakata",
+                "avatar": null
+              },
+              "subject": "letter",
+              "createdAt": "2016-11-28T12:52:22.655Z",
+              "read": 0
+            }, {
+              "_id": "583c25fc9087d7b6a29c9486",
+              "type": "reply",
+              "message": {
+                "_id": "583c2521aec5c3b68697c684"
+              },
+              "from": {
+                "uid": "112801",
+                "name": "112801",
+                "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+              },
+              "to": {
+                "uid": "nakata",
+                "name": "Nakata",
+                "avatar": null
+              },
+              "subject": "letter",
+              "createdAt": "2016-11-28T12:41:32.945Z",
+              "read": 0
+            }, {
+              "_id": "583c2521aec5c3b68697c685",
+              "type": "message",
+              "message": {
+                "_id": "583c2521aec5c3b68697c684"
+              },
+              "from": {
+                "uid": "112801",
+                "name": "112801",
+                "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+              },
+              "to": {
+                "uid": "nakata",
+                "name": "Nakata",
+                "avatar": null
+              },
+              "subject": "letter",
+              "createdAt": "2016-11-28T12:37:53.215Z",
+              "read": 0
+            }, {
+              "_id": "583c221e2db605b64a7a1abf",
+              "type": "agree",
+              "from": {
+                "uid": "112801",
+                "name": "112801",
+                "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+              },
+              "to": {
+                "uid": "nakata",
+                "name": "Nakata",
+                "avatar": null
+              },
+              "createdAt": "2016-11-28T12:25:02.521Z",
+              "read": 0
+            }, {
+              "_id": "583c22082db605b64a7a1abe",
+              "type": "inviting",
+              "from": {
+                "uid": "nakata",
+                "name": "Nakata",
+                "avatar": null
+              },
+              "to": {
+                "uid": "112801",
+                "name": "112801",
+                "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+              },
+              "createdAt": "2016-11-28T12:24:40.596Z",
+              "read": 1
+            }]
+
+## read [/events/{id}/read]
+
++ Parameters
+    + id: `123456` (string) - 消息的id.
+
+### 即读 [PATCH]
+
+
++ Request 
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
++ Response 200
+
+# Group 礼物
+
+## presents [/category/{id}/presents]
+
++ Parameters
+    + id: `123456` (string) - 礼物类别id.
+
+### 取得某一分类的礼物 [GET]
+
++ Request 
+
+    + Headers
+
+            authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
++ Response 200 (application/json)
+        [{
+            "title": "mac",
+            "link": "apple.com",
+            "price": "12345",
+            "image": "xx.jpg",
+            "gid": "12001814c0856dc623a11b9d2a1cb03c"
+        }, {
+            "title": "thinkpad",
+            "link": "ibm.com",
+            "price": "9999",
+            "image": "ttt.jpg",
+            "gid": "86d7102822ef859ba01e53c60e0d9c55"
+        }, {
+            "title": "ps3",
+            "link": "ps3.com",
+            "price": "8888",
+            "image": "xxx.jpg",
+            "gid": "3e9ccd4fa22bf811576e358c3546ec82"
+        }, {
+            "title": "1111",
+            "link": "1111",
+            "price": "1111",
+            "image": "1111",
+            "gid": "e628fa16f36b8949ca1940903ced854b"
+        }]
 
 # Group 设备
 
