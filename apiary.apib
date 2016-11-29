@@ -124,17 +124,17 @@ HOST: http://api.zhihuazhang.net/magokoro
 + Response 200 (application/json)
     + Body
 
-        {
-            "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9",
-            "user": {
-                "_id": "581ddc4989fc2ac44f365f45",
-                "name": "ouyou1",
-                "gender": 1,
-                "birthday": "2010年01月01日",
-                "uid": "wangyao",
-                "createdAt": "2016-11-05T13:19:05.683Z"
+            {
+                "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9",
+                "user": {
+                    "_id": "581ddc4989fc2ac44f365f45",
+                    "name": "ouyou1",
+                    "gender": 1,
+                    "birthday": "2010年01月01日",
+                    "uid": "wangyao",
+                    "createdAt": "2016-11-05T13:19:05.683Z"
+                }
             }
-        }
 
             
 + Response 409 (application/json)
@@ -145,12 +145,14 @@ HOST: http://api.zhihuazhang.net/magokoro
                 "message": "IDがすでに登録済みです。"
             }
 
-### 用户信息取得 [GET]
+## 用户信息 [/users/{uid}]
 
 + Parameters
     + uid: `zhz821` (string) - 用户的uid.
 
         For example: `users/zhz821`
+
+### 用户信息取得 [GET]
 
 + Request 
 
@@ -160,6 +162,7 @@ HOST: http://api.zhihuazhang.net/magokoro
 
 + Response 200 (application/json)
     + Body
+    
             {
                 "uid": "zhz821",
                 "name": "張志華",
@@ -167,13 +170,15 @@ HOST: http://api.zhihuazhang.net/magokoro
                 "status": "inviting"
             }
 
-### 取得多个用户信息 [GET]
+## 多个用户信息 [/users{?uids}]
 
 + Parameters
 
     + uids (required, string) ... 用户的uid. 可以指定多个
 
         For example: `users?uids[]=wangyao&uids[]=zhz821`
+        
+### 取得多个用户信息 [GET]
 
 + Request 
 
@@ -184,16 +189,16 @@ HOST: http://api.zhihuazhang.net/magokoro
 + response 200 (application/json)
     + Body
 
-        [{
-            "_id": "581ddc4989fc2ac44f365f45",
-            "name": "ouyou1",
-            "uid": "wangyao",
-            "avatar": "JjaDbRAMoZm0s90olA4VREL6.png"
-        }, {
-            "_id": "583c1b593e3fdbaffdf89c2a",
-            "name": "張志華",
-            "uid": "zhz821"
-        }]
+            [{
+                "_id": "581ddc4989fc2ac44f365f45",
+                "name": "ouyou1",
+                "uid": "wangyao",
+                "avatar": "JjaDbRAMoZm0s90olA4VREL6.png"
+            }, {
+                "_id": "583c1b593e3fdbaffdf89c2a",
+                "name": "張志華",
+                "uid": "zhz821"
+            }]
 
 ## Me [/user]
 
@@ -290,6 +295,8 @@ HOST: http://api.zhihuazhang.net/magokoro
             AhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEB
             AAAAAAAAAAAAAAAA
             --alamofire.boundary.d1d87f727c4b2819--
+            
++ Response 200
 
 ### 删除头像 [DELETE]
 
@@ -378,32 +385,34 @@ HOST: http://api.zhihuazhang.net/magokoro
 + Request (application/json)
 
     + Headers
+    
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
 
-    + Body        
-        {
-            "content": "Q",
-            "subject": "letter"
-        }
+    + Body
+    
+            {
+                "content": "Q",
+                "subject": "letter"
+            }
 
 + Response 200 (application/json)
 
-    {
-        "content": "Q",
-        "subject": "letter",
-        "createdAt": "2016-11-29T03:50:12.982Z",
-        "from": {
-            "name": "112801",
-            "uid": "112801",
-            "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
-        },
-        "to": {
-            "name": "Nakata",
-            "uid": "nakata"
-        },
-        "_id": "583cfaf455ac51b26f534ba8",
-        "createdDay": "2016年11月29日"
-    }
+        {
+            "content": "Q",
+            "subject": "letter",
+            "createdAt": "2016-11-29T03:50:12.982Z",
+            "from": {
+                "name": "112801",
+                "uid": "112801",
+                "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+            },
+            "to": {
+                "name": "Nakata",
+                "uid": "nakata"
+            },
+            "_id": "583cfaf455ac51b26f534ba8",
+            "createdDay": "2016年11月29日"
+        }
 
 ## Reply [/messages/{mid}/reply]
 
@@ -419,38 +428,39 @@ HOST: http://api.zhihuazhang.net/magokoro
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
 
     + Body
-        {
-            "content": "q"
-        }
+    
+            {
+                "content": "q"
+            }
 
 + Response 200 (application/json)
 
-    {
-        "_id": "583cfac255ac51b26f534ba4",
-        "content": "Qwert ",
-        "subject": "letter",
-        "createdAt": "2016-11-29T03:49:22.772Z",
-        "from": {
-            "name": "112801",
-            "uid": "112801",
-            "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
-        },
-        "to": {
-            "name": "Nakata",
-            "uid": "nakata"
-        },
-        "replies": [{
-            "sender": {
+        {
+            "_id": "583cfac255ac51b26f534ba4",
+            "content": "Qwert ",
+            "subject": "letter",
+            "createdAt": "2016-11-29T03:49:22.772Z",
+            "from": {
                 "name": "112801",
                 "uid": "112801",
                 "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
             },
-            "content": "q",
-            "type": "text",
-            "createdAt": "2016-11-29T03:49:26.254Z"
-        }],
-        "createdDay": "2016年11月29日"
-    }
+            "to": {
+                "name": "Nakata",
+                "uid": "nakata"
+            },
+            "replies": [{
+                "sender": {
+                    "name": "112801",
+                    "uid": "112801",
+                    "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                },
+                "content": "q",
+                "type": "text",
+                "createdAt": "2016-11-29T03:49:26.254Z"
+            }],
+            "createdDay": "2016年11月29日"
+        }
 
 ## Reply Image [/messages/{mid}/image]
 
@@ -482,41 +492,42 @@ HOST: http://api.zhihuazhang.net/magokoro
 + Response 200 (application/json)
 
     + Body
-        {
-            "_id": "583cfac255ac51b26f534ba4",
-            "content": "Qwert ",
-            "subject": "letter",
-            "createdAt": "2016-11-29T03:49:22.772Z",
-            "from": {
-                "name": "112801",
-                "uid": "112801",
-                "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
-            },
-            "to": {
-                "name": "Nakata",
-                "uid": "nakata"
-            },
-            "replies": [{
-                "sender": {
+    
+            {
+                "_id": "583cfac255ac51b26f534ba4",
+                "content": "Qwert ",
+                "subject": "letter",
+                "createdAt": "2016-11-29T03:49:22.772Z",
+                "from": {
                     "name": "112801",
                     "uid": "112801",
                     "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
                 },
-                "content": "q",
-                "type": "text",
-                "createdAt": "2016-11-29T03:49:26.254Z"
-            }, {
-                "sender": {
-                    "name": "112801",
-                    "uid": "112801",
-                    "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                "to": {
+                    "name": "Nakata",
+                    "uid": "nakata"
                 },
-                "type": "image",
-                "image": "9irRAjXFqz1A4F7JlVKw9GrM.png",
-                "createdAt": "2016-11-29T03:49:37.968Z"
-            }],
-            "createdDay": "2016年11月29日"
-        }
+                "replies": [{
+                    "sender": {
+                        "name": "112801",
+                        "uid": "112801",
+                        "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                    },
+                    "content": "q",
+                    "type": "text",
+                    "createdAt": "2016-11-29T03:49:26.254Z"
+                }, {
+                    "sender": {
+                        "name": "112801",
+                        "uid": "112801",
+                        "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                    },
+                    "type": "image",
+                    "image": "9irRAjXFqz1A4F7JlVKw9GrM.png",
+                    "createdAt": "2016-11-29T03:49:37.968Z"
+                }],
+                "createdDay": "2016年11月29日"
+            }
 
 ## Reply Video [/messages/{mid}/video]
 
@@ -548,51 +559,52 @@ HOST: http://api.zhihuazhang.net/magokoro
 + Response 200 (application/json)
 
     + Body
-        {
-            "_id": "583cfac255ac51b26f534ba4",
-            "content": "Qwert ",
-            "subject": "letter",
-            "createdAt": "2016-11-29T03:49:22.772Z",
-            "from": {
-                "name": "112801",
-                "uid": "112801",
-                "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
-            },
-            "to": {
-                "name": "Nakata",
-                "uid": "nakata"
-            },
-            "replies": [{
-                "sender": {
+    
+            {
+                "_id": "583cfac255ac51b26f534ba4",
+                "content": "Qwert ",
+                "subject": "letter",
+                "createdAt": "2016-11-29T03:49:22.772Z",
+                "from": {
                     "name": "112801",
                     "uid": "112801",
                     "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
                 },
-                "content": "q",
-                "type": "text",
-                "createdAt": "2016-11-29T03:49:26.254Z"
-            }, {
-                "sender": {
-                    "name": "112801",
-                    "uid": "112801",
-                    "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                "to": {
+                    "name": "Nakata",
+                    "uid": "nakata"
                 },
-                "type": "image",
-                "image": "9irRAjXFqz1A4F7JlVKw9GrM.png",
-                "createdAt": "2016-11-29T03:49:37.968Z"
-            }, {
-                "sender": {
-                    "name": "112801",
-                    "uid": "112801",
-                    "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
-                },
-                "type": "video",
-                "image": "09429490-b5e7-11e6-9f16-957be1685457.png",
-                "video": "CF_elLYz8maZsMmkV0OHWc4N.mp4",
-                "createdAt": "2016-11-29T03:50:58.501Z"
-            }],
-            "createdDay": "2016年11月29日"
-        }
+                "replies": [{
+                    "sender": {
+                        "name": "112801",
+                        "uid": "112801",
+                        "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                    },
+                    "content": "q",
+                    "type": "text",
+                    "createdAt": "2016-11-29T03:49:26.254Z"
+                }, {
+                    "sender": {
+                        "name": "112801",
+                        "uid": "112801",
+                        "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                    },
+                    "type": "image",
+                    "image": "9irRAjXFqz1A4F7JlVKw9GrM.png",
+                    "createdAt": "2016-11-29T03:49:37.968Z"
+                }, {
+                    "sender": {
+                        "name": "112801",
+                        "uid": "112801",
+                        "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                    },
+                    "type": "video",
+                    "image": "09429490-b5e7-11e6-9f16-957be1685457.png",
+                    "video": "CF_elLYz8maZsMmkV0OHWc4N.mp4",
+                    "createdAt": "2016-11-29T03:50:58.501Z"
+                }],
+                "createdDay": "2016年11月29日"
+            }
 
 ## Reply Pressent [/messages/{mid}/present/{pid}]
 
@@ -610,67 +622,68 @@ HOST: http://api.zhihuazhang.net/magokoro
 
 + Response 200 (application/json)
 
-    + Body 
-        {
-            "_id": "583cfac255ac51b26f534ba4",
-            "content": "Qwert ",
-            "subject": "letter",
-            "createdAt": "2016-11-29T03:49:22.772Z",
-            "from": {
-                "name": "112801",
-                "uid": "112801",
-                "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
-            },
-            "to": {
-                "name": "Nakata",
-                "uid": "nakata"
-            },
-            "replies": [{
-                "sender": {
+    + Body
+    
+            {
+                "_id": "583cfac255ac51b26f534ba4",
+                "content": "Qwert ",
+                "subject": "letter",
+                "createdAt": "2016-11-29T03:49:22.772Z",
+                "from": {
                     "name": "112801",
                     "uid": "112801",
                     "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
                 },
-                "content": "q",
-                "type": "text",
-                "createdAt": "2016-11-29T03:49:26.254Z"
-            }, {
-                "sender": {
-                    "name": "112801",
-                    "uid": "112801",
-                    "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                "to": {
+                    "name": "Nakata",
+                    "uid": "nakata"
                 },
-                "type": "image",
-                "image": "9irRAjXFqz1A4F7JlVKw9GrM.png",
-                "createdAt": "2016-11-29T03:49:37.968Z"
-            }, {
-                "sender": {
-                    "name": "112801",
-                    "uid": "112801",
-                    "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
-                },
-                "type": "video",
-                "image": "09429490-b5e7-11e6-9f16-957be1685457.png",
-                "video": "CF_elLYz8maZsMmkV0OHWc4N.mp4",
-                "createdAt": "2016-11-29T03:50:58.501Z"
-            }, {
-                "sender": {
-                    "name": "112801",
-                    "uid": "112801",
-                    "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
-                },
-                "present": {
-                    "title": "mac",
-                    "link": "apple.com",
-                    "price": "12345",
-                    "image": "xx.jpg",
-                    "gid": "12001814c0856dc623a11b9d2a1cb03c"
-                },
-                "type": "present",
-                "createdAt": "2016-11-29T05:38:55.899Z"
-            }],
-            "createdDay": "2016年11月29日"
-        }
+                "replies": [{
+                    "sender": {
+                        "name": "112801",
+                        "uid": "112801",
+                        "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                    },
+                    "content": "q",
+                    "type": "text",
+                    "createdAt": "2016-11-29T03:49:26.254Z"
+                }, {
+                    "sender": {
+                        "name": "112801",
+                        "uid": "112801",
+                        "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                    },
+                    "type": "image",
+                    "image": "9irRAjXFqz1A4F7JlVKw9GrM.png",
+                    "createdAt": "2016-11-29T03:49:37.968Z"
+                }, {
+                    "sender": {
+                        "name": "112801",
+                        "uid": "112801",
+                        "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                    },
+                    "type": "video",
+                    "image": "09429490-b5e7-11e6-9f16-957be1685457.png",
+                    "video": "CF_elLYz8maZsMmkV0OHWc4N.mp4",
+                    "createdAt": "2016-11-29T03:50:58.501Z"
+                }, {
+                    "sender": {
+                        "name": "112801",
+                        "uid": "112801",
+                        "avatar": "mGfl1H8OTmPtA32kDuB0suDs.png"
+                    },
+                    "present": {
+                        "title": "mac",
+                        "link": "apple.com",
+                        "price": "12345",
+                        "image": "xx.jpg",
+                        "gid": "12001814c0856dc623a11b9d2a1cb03c"
+                    },
+                    "type": "present",
+                    "createdAt": "2016-11-29T05:38:55.899Z"
+                }],
+                "createdDay": "2016年11月29日"
+            }
 
 # Group 事件
 
@@ -847,6 +860,7 @@ HOST: http://api.zhihuazhang.net/magokoro
             authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
 
 + Response 200 (application/json)
+
         [{
             "title": "mac",
             "link": "apple.com",
